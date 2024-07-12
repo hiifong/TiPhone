@@ -10,8 +10,11 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 include_directories(
         src
         src/inc
-        /opt/homebrew/Cellar/sdl2/2.30.5/include
 )
+
+find_package(SDL2 REQUIRED SDL2)
+include_directories(${SDL2_INCLUDE_DIRS})
+
 set(SOURCE
         src/main.c
         src/lv_conf.h
@@ -23,10 +26,6 @@ target_include_directories(
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE})
-
-find_package(SDL2 REQUIRED SDL2)
-
-include_directories(${SDL2_INCLUDE_DIRS})
 
 target_link_libraries(${PROJECT_NAME}
         lvgl
