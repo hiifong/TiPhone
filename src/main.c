@@ -14,21 +14,15 @@ static void lv_linux_disp_init(void)
 {
     const char *device = getenv_default("LV_LINUX_FBDEV_DEVICE", "/dev/fb0");
     lv_display_t * disp = lv_linux_fbdev_create();
-
+    lv_indev_t *touch = lv_evdev_create(LV_INDEV_TYPE_POINTER, "/dev/input/event2");
+    lv_indev_set_display(touch, disp);
     lv_linux_fbdev_set_file(disp, device);
 }
-#elif LV_USE_LINUX_DRM
-static void lv_linux_disp_init(void)
-{
-    const char *device = getenv_default("LV_LINUX_DRM_CARD", "/dev/dri/card0");
-    lv_display_t * disp = lv_linux_drm_create();
 
-    lv_linux_drm_set_file(disp, device, -1);
-}
 #elif LV_USE_SDL
 static void lv_linux_disp_init(void) {
-    const int width = atoi(getenv("LV_SDL_VIDEO_WIDTH") ? "" : "800");
-    const int height = atoi(getenv("LV_SDL_VIDEO_HEIGHT") ? "" : "1280");
+    const int width = 800;
+    const int height = 1280;
 
     lv_sdl_window_create(width, height);
 }
