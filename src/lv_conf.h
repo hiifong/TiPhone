@@ -187,7 +187,7 @@
  *-----------*/
 
 /*Enable the log module*/
-#define LV_USE_LOG 1
+#define LV_USE_LOG 0
 #if LV_USE_LOG
 
     /*How important log should be added:
@@ -233,8 +233,8 @@
 #define LV_USE_ASSERT_NULL          1   /*Check if the parameter is NULL. (Very fast, recommended)*/
 #define LV_USE_ASSERT_MALLOC        1   /*Checks is the memory is successfully allocated or no. (Very fast, recommended)*/
 #define LV_USE_ASSERT_STYLE         1   /*Check if the styles are properly initialized. (Very fast, recommended)*/
-#define LV_USE_ASSERT_MEM_INTEGRITY 1   /*Check the integrity of `lv_mem` after critical operations. (Slow)*/
-#define LV_USE_ASSERT_OBJ           1   /*Check the object's type and existence (e.g. not deleted). (Slow)*/
+#define LV_USE_ASSERT_MEM_INTEGRITY 0   /*Check the integrity of `lv_mem` after critical operations. (Slow)*/
+#define LV_USE_ASSERT_OBJ           0   /*Check the object's type and existence (e.g. not deleted). (Slow)*/
 
 /*Add a custom handler when assert happens e.g. to restart the MCU*/
 #define LV_ASSERT_HANDLER_INCLUDE <stdint.h>
@@ -602,14 +602,6 @@
     #define LV_FS_POSIX_CACHE_SIZE 0    /*>0 to cache this number of bytes in lv_fs_read()*/
 #endif
 
-/*API for CreateFile, ReadFile, etc*/
-#define LV_USE_FS_WIN32 0
-#if LV_USE_FS_WIN32
-    #define LV_FS_WIN32_LETTER '\0'     /*Set an upper cased letter on which the drive will accessible (e.g. 'A')*/
-    #define LV_FS_WIN32_PATH ""         /*Set the working directory. File/directory paths will be appended to it.*/
-    #define LV_FS_WIN32_CACHE_SIZE 0    /*>0 to cache this number of bytes in lv_fs_read()*/
-#endif
-
 /*API for FATFS (needs to be added separately). Uses f_open, f_read, etc*/
 #define LV_USE_FS_FATFS 0
 #if LV_USE_FS_FATFS
@@ -833,7 +825,7 @@
 #if LV_USE_SDL
     #define LV_SDL_INCLUDE_PATH    <SDL2/SDL.h>
     #define LV_SDL_RENDER_MODE     LV_DISPLAY_RENDER_MODE_DIRECT   /*LV_DISPLAY_RENDER_MODE_DIRECT is recommended for best performance*/
-    #define LV_SDL_BUF_COUNT       1    /*1 or 2*/
+    #define LV_SDL_BUF_COUNT       2    /*1 or 2*/
     #define LV_SDL_FULLSCREEN      0    /*1: Make the window full screen by default*/
     #define LV_SDL_DIRECT_EXIT     1    /*1: Exit the application when all SDL windows are closed*/
 #endif
@@ -858,101 +850,14 @@
     #define LV_LINUX_FBDEV_BUFFER_SIZE   60
 #endif
 
-/*Use Nuttx to open window and handle touchscreen*/
-#define LV_USE_NUTTX    0
-
-#if LV_USE_NUTTX
-    #define LV_USE_NUTTX_LIBUV    0
-
-    /*Use Nuttx custom init API to open window and handle touchscreen*/
-    #define LV_USE_NUTTX_CUSTOM_INIT    0
-
-    /*Driver for /dev/lcd*/
-    #define LV_USE_NUTTX_LCD      0
-    #if LV_USE_NUTTX_LCD
-        #define LV_NUTTX_LCD_BUFFER_COUNT    0
-        #define LV_NUTTX_LCD_BUFFER_SIZE     60
-    #endif
-
-    /*Driver for /dev/input*/
-    #define LV_USE_NUTTX_TOUCHSCREEN    0
-
-#endif
-
 /*Driver for /dev/dri/card*/
 #define LV_USE_LINUX_DRM        0
-
-/*Interface for TFT_eSPI*/
-#define LV_USE_TFT_ESPI         0
 
 /*Driver for evdev input devices*/
 #define LV_USE_EVDEV    0
 
-/*Drivers for LCD devices connected via SPI/parallel port*/
-#define LV_USE_ST7735       0
-#define LV_USE_ST7789       0
-#define LV_USE_ST7796       0
-#define LV_USE_ILI9341      0
-
-#define LV_USE_GENERIC_MIPI (LV_USE_ST7735 | LV_USE_ST7789 | LV_USE_ST7796 | LV_USE_ILI9341)
-
 /* LVGL Windows backend */
 #define LV_USE_WINDOWS    0
-
-/*==================
-* EXAMPLES
-*==================*/
-
-/*Enable the examples to be built with the library*/
-#define LV_BUILD_EXAMPLES 1
-
-/*===================
- * DEMO USAGE
- ====================*/
-
-/*Show some widget. It might be required to increase `LV_MEM_SIZE` */
-#define LV_USE_DEMO_WIDGETS 0
-#if LV_USE_DEMO_WIDGETS
-    #define LV_DEMO_WIDGETS_SLIDESHOW 0
-#endif
-
-/*Demonstrate the usage of encoder and keyboard*/
-#define LV_USE_DEMO_KEYPAD_AND_ENCODER 0
-
-/*Benchmark your system*/
-#define LV_USE_DEMO_BENCHMARK 0
-
-/*Render test for each primitives. Requires at least 480x272 display*/
-#define LV_USE_DEMO_RENDER 0
-
-/*Stress test for LVGL*/
-#define LV_USE_DEMO_STRESS 0
-
-/*Music player demo*/
-#define LV_USE_DEMO_MUSIC 1
-#if LV_USE_DEMO_MUSIC
-    #define LV_DEMO_MUSIC_SQUARE    1
-    #define LV_DEMO_MUSIC_LANDSCAPE 1
-    #define LV_DEMO_MUSIC_ROUND     1
-    #define LV_DEMO_MUSIC_LARGE     1
-    #define LV_DEMO_MUSIC_AUTO_PLAY 1
-#endif
-
-/*Flex layout demo*/
-#define LV_USE_DEMO_FLEX_LAYOUT     1
-
-/*Smart-phone like multi-language demo*/
-#define LV_USE_DEMO_MULTILANG       1
-
-/*Widget transformation demo*/
-#define LV_USE_DEMO_TRANSFORM       1
-
-/*Demonstrate scroll settings*/
-#define LV_USE_DEMO_SCROLL          1
-
-/*Vector graphic demo*/
-#define LV_USE_DEMO_VECTOR_GRAPHIC  1
-/*--END OF LV_CONF_H--*/
 
 #endif /*LV_CONF_H*/
 

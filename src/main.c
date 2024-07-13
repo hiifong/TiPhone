@@ -1,5 +1,4 @@
 #include "lvgl/lvgl.h"
-#include "lvgl/demos/lv_demos.h"
 #include <unistd.h>
 #include <pthread.h>
 #include <time.h>
@@ -37,16 +36,35 @@ static void lv_linux_disp_init(void) {
 #error Unsupported configuration
 #endif
 
+static void btn_event_cb(lv_event_t *e) {
+    lv_event_code_t code = lv_event_get_code(e);
+    lv_obj_t *btn = lv_event_get_target(e);
+    if (code == LV_EVENT_CLICKED) {
+        static uint8_t cnt = 0;
+        cnt++;
+        lv_obj_t *label = lv_obj_get_child(btn, 0);
+        lv_label_set_text_fmt(label, "Button: %d", cnt);
+    }
+}
+
+void btn(void) {
+    lv_obj_t *btn = lv_button_create(lv_screen_active());
+
+    lv_obj_set_size(btn, 120, 40);
+    lv_obj_align(btn, LV_ALIGN_CENTER, 0,0);
+    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL);
+
+    lv_obj_t *label = lv_label_create(btn);
+    lv_label_set_text(label, "Button");
+    lv_obj_center(label);
+}
+
 int main(void) {
     lv_init();
-
-    /*Linux display device init*/
     lv_linux_disp_init();
 
-    /*Create a Demo*/
-    lv_demo_music();
+    btn();
 
-    /*Handle LVGL tasks*/
     while (1) {
         lv_timer_handler();
         usleep(5000);
