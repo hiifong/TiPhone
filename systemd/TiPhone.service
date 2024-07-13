@@ -1,0 +1,12 @@
+[Unit]
+Description=TiPhone
+
+[Service]
+TimeoutStartSec=0
+Type=simple
+ExecStart=/root/TiPhone
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 2.4...3.30)
 project(TiPhone)
 set(PROJECT_VERSION "v0.1.0")
 
@@ -20,7 +20,7 @@ if (PLATFORM_FOR_LINUX)
 
 endif (PLATFORM_FOR_LINUX)
 
-find_package(SDL2)
+# find_package(SDL2)
 if (PLATFORM_FOR_MAC)
     find_package(SDL2 REQUIRED SDL2)
     include_directories(${SDL2_INCLUDE_DIRS})
@@ -36,9 +36,8 @@ set(SOURCE
 
 add_subdirectory(lvgl)
 
-find_package(PNG REQUIRED)
 target_include_directories(
-        lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS} ${PNG_INCLUDE_DIR}
+        lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS}
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE})
@@ -46,7 +45,6 @@ add_executable(${PROJECT_NAME} ${SOURCE})
 target_link_libraries(${PROJECT_NAME}
         lvgl
         lvgl::thorvg
-        ${PNG_LIBRARY}
         m
         pthread
 )
