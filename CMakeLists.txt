@@ -26,14 +26,19 @@ if (PLATFORM_FOR_MAC)
     include_directories(${SDL2_INCLUDE_DIRS})
 endif (PLATFORM_FOR_MAC)
 
+file(GLOB_RECURSE IMAGES "resource/images/*.c")
+
 set(SOURCE
         src/main.c
         src/lv_conf.h
+        ${IMAGES}
 )
 
 add_subdirectory(lvgl)
+
+find_package(PNG REQUIRED)
 target_include_directories(
-        lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS}
+        lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS} ${PNG_INCLUDE_DIR}
 )
 
 add_executable(${PROJECT_NAME} ${SOURCE})
@@ -41,6 +46,7 @@ add_executable(${PROJECT_NAME} ${SOURCE})
 target_link_libraries(${PROJECT_NAME}
         lvgl
         lvgl::thorvg
+        ${PNG_LIBRARY}
         m
         pthread
 )
