@@ -14,6 +14,8 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
 include_directories(
         src
         src/inc
+        src/components
+        src/components/dock
 )
 
 if (PLATFORM_FOR_LINUX)
@@ -26,11 +28,20 @@ if (PLATFORM_FOR_MAC)
     include_directories(${SDL2_INCLUDE_DIRS})
 endif (PLATFORM_FOR_MAC)
 
+file(GLOB SRC 
+        "src/*.c"
+        "src/*.h"
+        "src/**/*.c"
+        "src/**/*.h"
+        "src/**/**/*.c"
+        "src/**/**/*.h"
+)
 file(GLOB_RECURSE IMAGES "resource/images/*.c")
 
+message("source files ===> ${SRC}")
+
 set(SOURCE
-        src/main.c
-        src/lv_conf.h
+        ${SRC}
         ${IMAGES}
 )
 
