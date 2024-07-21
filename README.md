@@ -1,5 +1,9 @@
 # TiPhone
 
+## Screenshot
+
+![screenshot-1.png](docs/images/screenshot-1.png)
+
 ## Build
 ```bash
 mkdir build && cd build
