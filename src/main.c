@@ -1,4 +1,4 @@
-#include "lvgl/lvgl.h"
+#include "init.h"
 #include "dock/dock.h"
 #include <unistd.h>
 #include <pthread.h>
@@ -6,32 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-static const char * getenv_default(const char * name, const char * dflt)
-{
-    return getenv(name) ? "" : dflt;
-}
 
-#if LV_USE_LINUX_FBDEV
-static void lv_linux_disp_init(void)
-{
-    const char * device = getenv_default("LV_LINUX_FBDEV_DEVICE", "/dev/fb0");
-    lv_display_t * disp = lv_linux_fbdev_create();
-    lv_indev_t * touch  = lv_evdev_create(LV_INDEV_TYPE_POINTER, "/dev/input/event2");
-    lv_indev_set_display(touch, disp);
-    lv_linux_fbdev_set_file(disp, device);
-}
-
-#elif LV_USE_SDL
-static void lv_linux_disp_init(void)
-{
-    const int width  = 800;
-    const int height = 1280;
-
-    lv_sdl_window_create(width, height);
-}
-#else
-#error Unsupported configuration
-#endif
 
 static void btn_event_cb(lv_event_t * e)
 {
@@ -48,7 +23,6 @@ static void btn_event_cb(lv_event_t * e)
 
 void demo(void)
 {
-    LV_IMAGE_DECLARE(iphone15bg);
     lv_obj_t * img;
 
     img = lv_image_create(lv_screen_active());
@@ -83,30 +57,25 @@ void demo(void)
     lv_obj_set_style_border_width(qr, 5, 0);
 
     // Dock
-    LV_IMAGE_DECLARE(linkman);
-    LV_IMAGE_DECLARE(camera);
-    LV_IMAGE_DECLARE(music);
-    LV_IMAGE_DECLARE(photoview);
-    LV_IMAGE_DECLARE(led);
     t_dock_item item1 = {
+        .title = "udpchat",
+        .icon  = &udpchat,
+    };
+    t_dock_item item2 = {
         .title = "linkman",
         .icon  = &linkman,
     };
-    t_dock_item item2 = {
+    t_dock_item item3 = {
         .title = "camera",
         .icon  = &camera,
-    };
-    t_dock_item item3 = {
-        .title = "music",
-        .icon  = &music,
     };
     t_dock_item item4 = {
         .title = "photoview",
         .icon  = &photoview,
     };
     t_dock_item item5 = {
-        .title = "led",
-        .icon  = &led,
+        .title = "settings",
+        .icon  = &settings,
     };
     t_dock_obj dock = {
         .len  = 5,
@@ -118,9 +87,7 @@ void demo(void)
 
 int main(void)
 {
-    lv_init();
-    lv_linux_disp_init();
-
+    init();
     demo();
 
     while(1) {

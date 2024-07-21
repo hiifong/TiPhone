@@ -2,8 +2,9 @@ cmake_minimum_required(VERSION 2.4...3.30)
 project(TiPhone)
 set(PROJECT_VERSION "v0.1.0")
 
-option(PLATFORM_FOR_LINUX "linux platform" OFF)
-option(PLATFORM_FOR_MAC "mac platform" OFF)
+option(PLATFORM_IS_LINUX "Is linux platform" ON)
+
+message("platform is linux: ${PLATFORM_IS_LINUX}")
 
 set(CMAKE_C_STANDARD 99)
 set(CMAKE_CXX_STANDARD 17)
@@ -18,17 +19,12 @@ include_directories(
         src/components/dock
 )
 
-if (PLATFORM_FOR_LINUX)
-
-endif (PLATFORM_FOR_LINUX)
-
-# find_package(SDL2)
-if (PLATFORM_FOR_MAC)
+if (NOT PLATFORM_IS_LINUX)
     find_package(SDL2 REQUIRED SDL2)
     include_directories(${SDL2_INCLUDE_DIRS})
-endif (PLATFORM_FOR_MAC)
+endif ()
 
-file(GLOB SRC 
+file(GLOB SRC
         "src/*.c"
         "src/*.h"
         "src/**/*.c"
@@ -48,8 +44,15 @@ set(SOURCE
 add_subdirectory(lvgl)
 
 target_include_directories(
-        lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS}
+        lvgl PUBLIC ${PROJECT_SOURCE_DIR}
 )
+
+if (NOT PLATFORM_IS_LINUX)
+    find_package(SDL2 REQUIRED SDL2)
+    target_include_directories(
+            lvgl PUBLIC ${PROJECT_SOURCE_DIR} ${SDL2_INCLUDE_DIRS}
+    )
+endif ()
 
 add_executable(${PROJECT_NAME} ${SOURCE})
 
@@ -60,11 +63,7 @@ target_link_libraries(${PROJECT_NAME}
         pthread
 )
 
-if (PLATFORM_FOR_LINUX)
-
-endif (PLATFORM_FOR_LINUX)
-
-if (PLATFORM_FOR_MAC)
+if (NOT PLATFORM_IS_LINUX)
     find_package(SDL2 REQUIRED SDL2)
     target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES})
 endif ()
