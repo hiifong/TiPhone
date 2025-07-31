@@ -32,7 +32,7 @@ lv_obj_t * t_create_dock(lv_obj_t * parent, t_dock_obj * dock)
     lv_obj_t * cont_row = lv_obj_create(parent);
     lv_obj_set_size(cont_row, 700, 165);
     lv_obj_align(cont_row, LV_ALIGN_BOTTOM_MID, 0, -20);
-    lv_obj_set_flex_flow(cont_row, LV_ALIGN_BOTTOM_MID);
+    lv_obj_set_flex_flow(cont_row, LV_FLEX_FLOW_ROW);
     lv_obj_set_flex_align(cont_row, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
 
     static lv_style_t style;

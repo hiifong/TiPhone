@@ -33,6 +33,9 @@ static void lv_linux_disp_init(void)
     const int height = 1280;
 
     lv_sdl_window_create(width, height);
+    lv_sdl_mouse_create();
+    lv_sdl_mousewheel_create();
+    lv_sdl_keyboard_create();
 }
 #else
 #error Unsupported configuration
